@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales Management</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Sales Transactions</h1>
+
+    <!-- Form to Add a New Sale -->
+    <h3>Record New Sale</h3>
+    <form id="addSaleForm">
+        <input type="text" id="saleProductName" placeholder="Product Name" required>
+        <input type="date" id="salesDate" required>
+        <input type="number" id="salePrice" placeholder="Price" required>
+        <input type="number" id="saleQuantity" placeholder="Quantity" required>
+        <input type="number" id="totalAmount" placeholder="Total Amount" required>
+        <button type="submit">Add Sale</button>
+    </form>
+
+    <!-- Table to Display Existing Sales -->
+    <h3>Sales Transactions</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Product Name</th>
+                <th>Sales Date</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Total Amount</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody id="salesTableBody">
+            <!-- Data will be dynamically populated here -->
+        </tbody>
+    </table>
+
+    <script src="app.js"></script>
+</body>
+</html>
