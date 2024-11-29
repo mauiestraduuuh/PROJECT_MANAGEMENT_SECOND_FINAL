@@ -1,127 +1,84 @@
-// Import necessary libraries
 const express = require('express');
-const mysql = require('mysql2');
+const path = require('path');
+const mysql = require('mysql');
 const cors = require('cors');
-const bodyParser = require('body-parser');
+const session = require('express-session');
 
-// Initialize express app
 const app = express();
 
-// Set up middleware
-app.use(cors({
-  origin: 'http://127.0.0.1:80'  // Allow requests from your live server proxy
-}));
-app.use(bodyParser.json());
-
-// Set up MySQL database connection
+// MySQL Database connection
 const db = mysql.createConnection({
   host: 'localhost',
-  user: 'root', // Replace with your MySQL username
-  password: 'mauestrada', // Replace with your MySQL password
-  database: 'system_db' // Replace with your database name
+  user: 'root',  // change if your username is different
+  password: 'mauestrada',  // put your MySQL password here if applicable
+  database: 'system_db'  // replace with your actual database name
 });
 
-// Test route to check if backend is working
+db.connect(err => {
+  if (err) throw err;
+  console.log('Connected to the database');
+});
+
+// Middleware
+app.use(express.json());
+app.use(cors({
+  origin: 'http://127.0.0.1:5000',
+  methods: ['GET', 'POST']
+}));
+
+app.use(session({
+  secret: 'your-secret-key',
+  resave: false,
+  saveUninitialized: true
+}));
+
+// Serve static files from 'frontend' directory (HTML, CSS, JS)
+app.use(express.static(path.join(__dirname, 'frontend')));
+
+// Root route - serves the homepage (index.html)
 app.get('/', (req, res) => {
-  res.send('Backend is working!');
+  res.sendFile(path.join(__dirname, 'frontend', 'index.html')); // Serve the index.html file
 });
 
-// Connect to the MySQL database
-db.connect((err) => {
-  if (err) {
-    console.error('Error connecting to MySQL:', err);
-    return;
-  }
-  console.log('Connected to MySQL database');
-});
-
-// --- API Routes ---
-
-// **Licenses (Permits) Routes**
-// Get all licenses
-app.get('/api/licenses', (req, res) => {
-  const query = 'SELECT * FROM licenses';
-  db.query(query, (err, result) => {
-    if (err) {
-      console.error('Error fetching permits:', err);
-      res.status(500).json({ message: 'Error fetching permits', error: err });
-    } else {
-      res.json(result);
-    }
-  });
-});
-
-// Add a new license (permit)
-app.post('/api/licenses', (req, res) => {
-  const { permit_name, issued_date, expiry_date } = req.body;
-  const query = 'INSERT INTO licenses (permit_name, issued_date, expiry_date) VALUES (?, ?, ?)';
-  db.query(query, [permit_name, issued_date, expiry_date], (err, result) => {
-    if (err) {
-      console.error('Error adding permit:', err);
-      res.status(500).json({ message: 'Error adding permit', error: err });
-    } else {
-      res.status(201).json({ message: 'Permit added successfully' });
-    }
-  });
-});
-
-// **Inventory Routes**
-// Get all inventory products
+// API route for products
 app.get('/api/products', (req, res) => {
-  const query = 'SELECT * FROM products';
-  db.query(query, (err, result) => {
-    if (err) {
-      console.error('Error fetching inventory:', err);
-      res.status(500).json({ message: 'Error fetching inventory', error: err });
-    } else {
-      res.json(result);
-    }
+  const query = 'SELECT * FROM products'; // Query to fetch products from the database
+  db.query(query, (err, results) => {
+    if (err) throw err;
+    res.json(results);
   });
 });
 
-// Add a new inventory product
+// API route to add a product
 app.post('/api/products', (req, res) => {
   const { product_name, unit_price, quantity, date_added, expiry_date } = req.body;
   const query = 'INSERT INTO products (product_name, unit_price, quantity, date_added, expiry_date) VALUES (?, ?, ?, ?, ?)';
   db.query(query, [product_name, unit_price, quantity, date_added, expiry_date], (err, result) => {
-    if (err) {
-      console.error('Error adding product to inventory:', err);
-      res.status(500).json({ message: 'Error adding product to inventory', error: err });
-    } else {
-      res.status(201).json({ message: 'Product added to inventory successfully' });
-    }
+    if (err) throw err;
+    res.json({ message: 'Product added successfully!' });
   });
 });
 
-// **Sales Routes**
-// Get all sales transactions
-app.get('/api/transactions', (req, res) => {
-  const query = 'SELECT * FROM transactions';
-  db.query(query, (err, result) => {
-    if (err) {
-      console.error('Error fetching sales data:', err);
-      res.status(500).json({ message: 'Error fetching sales data', error: err });
-    } else {
-      res.json(result);
-    }
+// API route for licenses (permits)
+app.get('/api/licenses', (req, res) => {
+  const query = 'SELECT * FROM licenses'; // Query to fetch licenses from the database
+  db.query(query, (err, results) => {
+    if (err) throw err;
+    res.json(results);
   });
 });
 
-// Add a new sale transaction
-app.post('/api/transactions', (req, res) => {
-  const { product_name, sales_date, price, quantity, total_amount } = req.body;
-  const query = 'INSERT INTO transactions (product_name, sales_date, price, quantity, total_amount) VALUES (?, ?, ?, ?, ?)';
-  db.query(query, [product_name, sales_date, price, quantity, total_amount], (err, result) => {
-    if (err) {
-      console.error('Error adding sale:', err);
-      res.status(500).json({ message: 'Error adding sale', error: err });
-    } else {
-      res.status(201).json({ message: 'Sale added successfully' });
-    }
+// API route to add a license (permit)
+app.post('/api/licenses', (req, res) => {
+  const { permit_name, issued_date, expiry_date } = req.body;
+  const query = 'INSERT INTO licenses (permit_name, issued_date, expiry_date) VALUES (?, ?, ?)';
+  db.query(query, [permit_name, issued_date, expiry_date], (err, result) => {
+    if (err) throw err;
+    res.json({ message: 'Permit added successfully!' });
   });
 });
 
-// Start the server
+// Start server
 const PORT = 5000;
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Dashboard</h1>
+    <div class="dashboard">
+        <div id="permitStats">
+            <h2>Permit Dashboard</h2>
+            <p>Total Permits: <span id="totalPermits">0</span></p>
+            <p>Expired Permits: <span id="expiredPermits">0</span></p>
+            <p>Expiring Soon Permits: <span id="expiringSoonPermits">0</span></p>
+            <p>Active Permits: <span id="activePermits">0</span></p>
+        </div>
+        <div id="inventoryStats">
+            <h2>Inventory Dashboard</h2>
+            <p>Low Stock Products: <span id="lowStockProducts">0</span></p>
+            <p>Expiring Soon Products: <span id="expiringSoonProducts">0</span></p>
+        </div>
+        <div id="salesStats">
+            <h2>Sales Dashboard</h2>
+            <p>Top Selling Product: <span id="topSellingProduct">N/A</span></p>
+            <p>Business Performance: <span id="businessPerformance">N/A</span></p>
+        </div>
+        <div class="navigation">
+            <button onclick="window.location.href='permit.html'">Manage Permits</button>
+            <button onclick="window.location.href='inventory.html'">Manage Inventory</button>
+            <button onclick="window.location.href='sales.html'">Manage Sales</button>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

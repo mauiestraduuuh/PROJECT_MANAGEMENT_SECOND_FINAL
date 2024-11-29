@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Permit Management</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Permit Management</h1>
+
+    <h3>Add New Permit</h3>
+    <form id="addLicenseForm">
+        <input type="text" id="permitName" placeholder="Permit Name" required>
+        <input type="date" id="issuedDate" required>
+        <input type="date" id="expiryDate" required>
+        <button type="submit">Add Permit</button>
+    </form>
+
+    <h3>Existing Permits</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Permit Name</th>
+                <th>Issued Date</th>
+                <th>Expiry Date</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody id="permitTableBody">
+            <!-- Data will be populated here -->
+        </tbody>
+    </table>
+
+    <script src="app.js"></script>
+</body>
+</html>

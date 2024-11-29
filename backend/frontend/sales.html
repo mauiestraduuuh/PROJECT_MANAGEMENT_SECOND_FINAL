@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Sales Dashboard</h1>
+
+    <h3>Add New Sale</h3>
+    <form id="addSaleForm">
+        <input type="text" id="productName" placeholder="Product Name" required>
+        <input type="date" id="saleDate" required>
+        <input type="number" id="salePrice" placeholder="Price" required>
+        <input type="number" id="saleQuantity" placeholder="Quantity" required>
+        <button type="submit">Add Sale</button>
+    </form>
+
+    <h3>Sales Data</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Product Name</th>
+                <th>Sale Date</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Total Amount</th>
+            </tr>
+        </thead>
+        <tbody id="salesTableBody">
+            <!-- Sales data will be populated here -->
+        </tbody>
+    </table>
+
+    <h3>Business Performance</h3>
+    <div>
+        <p>Top Selling Product: <span id="topSellingProduct">N/A</span></p>
+        <p>Total Revenue: <span id="totalRevenue">0</span></p>
+        <p>Total Sales: <span id="totalSales">0</span></p>
+    </div>
+
+    <div class="navigation">
+        <button onclick="window.location.href='permit.html'">Manage Permits</button>
+        <button onclick="window.location.href='inventory.html'">Manage Inventory</button>
+        <button onclick="window.location.href='dashboard.html'">Back to Dashboard</button>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
